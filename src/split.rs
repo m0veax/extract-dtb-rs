@@ -14,6 +14,10 @@ import string
 __version__ = "1.3.dev0"
 
 DTB_HEADER = b"\xd0\x0d\xfe\xed"
+*/
+const DTB_HEADER: [u8; 4] = [0xd0, 0x0d, 0xfe, 0xed];
+
+/* 
 
 
 def dump_file(filename, content):
@@ -39,12 +43,13 @@ def safe_output_path(output_dir, dtb_filename_new):
 
 */
 
-pub fn split(filename: &String, n: &bool, o: &bool, dest: &String) {
+pub fn split(filename: &String, n: &bool, o: &String, dest: &String) {
 
     println!("opening file {}", filename);
     let mut f = File::open(filename);
 
 
+    
 
 }
 
