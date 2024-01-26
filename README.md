@@ -7,7 +7,7 @@ A Device Tree is a data structure for describing hardware. They are used in a lo
 ARM devices (e.g. Android), otherwise these would not be able to boot.
 
 This tool is similar to [split-appended-dtb](https://github.com/dianlujitao/split-appended-dtb)
-but it is implemented in rust.
+but it is implemented in rust. Rewrite source is [extract-dtb](https://github.com/PabloCastellano/extract-dtb)
 
 If you want to learn more about DTB you can have a look at the
 [Device Tree Reference](http://elinux.org/Device_Tree_Reference).
