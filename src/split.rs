@@ -43,16 +43,30 @@ def safe_output_path(output_dir, dtb_filename_new):
 
 */
 
-pub fn split(filename: &String, n: &bool, o: &String, dest: &String) {
+// Entering dangerzone! Copy and paste driven development
+// https://doc.rust-lang.org/std/io/trait.Read.html#examples-2
+fn read_in(filename: &str) -> io::Result<Vec<u8>> {
+    let mut f = File::open(filename)?;
+    let mut buffer = Vec::new();
 
-    println!("opening file {}", filename);
-    let mut f = File::open(filename);
-
-
-    
-
+    // read the whole file
+    f.read_to_end(&mut buffer)?;
+    Ok(buffer)
 }
 
+pub fn split(filename: &String, n: &bool, o: &String, dest: &String) -> io::Result<()> {
+
+    println!("opening file {}", filename);
+    
+    let content = read_in(&filename).unwrap();
+    
+    let len = content.len();
+
+    println!("Length {}", len);
+    
+    Ok(())
+
+}
     /* 
 def split(args):
     """Reads a file and looks for DTB_HEADER occurrences (beginning of each DTB)

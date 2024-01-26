@@ -26,7 +26,8 @@ fn main() {
     let n = args.n;
     let dest = args.dest;
 
+    println!("args {} {} {} {}", filename, o, n, dest);
+
     split(&filename, &n, &o, &dest);
 
-    println!("args {} {} {} {}", filename, o, n, dest);
 }
