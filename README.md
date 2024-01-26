@@ -1,6 +1,5 @@
-# extract-dtb
+# extract-dtb-rs
 
-<a href="https://www.buymeacoffee.com/PabloCastellano"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=PabloCastellano&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff"></a>
 
 Tool to split a kernel image with appended dtbs into separated kernel and dtb files.
 
@@ -8,24 +7,19 @@ A Device Tree is a data structure for describing hardware. They are used in a lo
 ARM devices (e.g. Android), otherwise these would not be able to boot.
 
 This tool is similar to [split-appended-dtb](https://github.com/dianlujitao/split-appended-dtb)
-but it is written in Python and its code is simpler and almost 3x shorter. Moreover, it doesn't
-require any external Python library.
+but it is implemented in rust.
 
 If you want to learn more about DTB you can have a look at the
 [Device Tree Reference](http://elinux.org/Device_Tree_Reference).
 
 ## Install & Usage
 
-`extract-dtb` is available on PyPI!
+TODO how to install
+
+`extract-dtb-rs` is available on PyPI!
 
 ```
-$ pip install extract-dtb
-```
-
-The `extract-dtb` command is now available:
-
-```
-$ extract-dtb --help
+$ extract-dtb-rs --help
 usage: extract-dtb [-h] [-o OUTPUT_DIR] [-n] [-V] filename
 
 Extract dtbs from kernel images.
@@ -75,6 +69,3 @@ total 9088
 
 This tool can also be run directly on `boot.img` images.
 
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=PabloCastellano/extract-dtb&type=Date)](https://star-history.com/#PabloCastellano/extract-dtb&Date)
