@@ -1,6 +1,8 @@
 use clap::Parser;
 mod split;
 
+use split::split;
+
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
 struct Args {
@@ -24,7 +26,7 @@ fn main() {
     let n = args.n;
     let dest = args.dest;
 
-
+    split(&filename, &o, &n, &dest);
 
     println!("args {} {} {} {}", filename, o, n, dest);
 }
