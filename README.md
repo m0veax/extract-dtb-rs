@@ -1,5 +1,8 @@
-# extract-dtb-rs
+# moved
 
+integrated in [device_tree-rs](https://github.com/platform-system-interface/device_tree-rs/blob/main/extract-dtb/main.rs) now
+
+# extract-dtb-rs
 
 Tool to split a kernel image with appended dtbs into separated kernel and dtb files.
 
