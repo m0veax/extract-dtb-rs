@@ -1,3 +1,4 @@
+use std::fs;
 use std::fs::File;
 use std::io;
 use std::io::prelude::*;
@@ -6,9 +7,10 @@ use std::os::unix::fs::MetadataExt;
 
 use psi_device_tree::DeviceTree as DT;
 
+// doodfeed is not a burger
 const DTB_MAGIC: u32 = 0xd00d_feed;
 
-pub fn split(filename: &String, n: &bool, o: &String, dest: &String) -> io::Result<()> {
+pub fn split(filename: &String, n: &bool,dest: &String) -> io::Result<()> {
 
     println!("opening file {}", filename);
     
@@ -18,35 +20,44 @@ pub fn split(filename: &String, n: &bool, o: &String, dest: &String) -> io::Resu
 
     for o in (0..size).step_by(step as usize) {
 
-        //println!("Offset {}", o);
+        // read first bytes
         f.seek(SeekFrom::Start(o))?;
         let buf = &mut [0u8; 4];
-        let val = f.read(buf).unwrap() as u32;
-
-        let hex = u32::from_be_bytes(*buf);
+        f.read(buf).unwrap();
         
-        if hex == DTB_MAGIC {
+        // is le magic?
+        if u32::from_be_bytes(*buf) == DTB_MAGIC {
+            // next 4 bytes plz to get size of device tree
+            f.read(buf).unwrap();
+            // size is not little endian
+            let size = u32::from_be_bytes(*buf) as usize;
+            println!("{size:#}");
+
             f.seek(SeekFrom::Start(o))?;
+            // create vec of size filled with zerozero
+            let mut buf = vec![0; size]; 
+            f.read_exact(&mut buf).unwrap();
 
-            println!("{hex:#08x?} @{o:#x}"); // I like
+            
+            let dt = DT::load(&buf).unwrap();
+            
+            // does it exist? if not, rule 34
+            fs::create_dir_all(dest).unwrap();
 
-            let mut buf = Vec::new();
-            f.read_to_end(&mut buf).unwrap();
+            let mut filename = String::from(format!("{o:08x}"));
+            filename.push_str(".dtb");
 
-            let dt = DT::load(&buf);
-            //println!("{dt:#?} {:?}", buf[0]);
+            let path = std::path::Path::new(dest).join(filename);
 
-            /* 
-            let dtb = dt.store().unwrap();
+            println!("{path:?}");
 
-           
             let mut output = std::fs::OpenOptions::new()
                 .write(true)
                 .create(true)
-                .open(dest + o.to_string().to_owned() + ".dtb")
+                .open(path)
                 .unwrap();
-            output.write_all(&dtb).unwrap();
-            */
+            output.write_all(&buf).unwrap();
+             
         }   
     }
     

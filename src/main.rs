@@ -10,8 +10,6 @@ struct Args {
     #[arg(short, long)]
     filename: String,
     #[arg(short)]
-    o: String,
-    #[arg(short)]
     n: bool,
     #[arg(short, long)]
     dest: String
@@ -22,12 +20,11 @@ fn main() {
 
     let args = Args::parse();
     let filename = args.filename;
-    let o: String = args.o;
     let n = args.n;
     let dest = args.dest;
 
-    println!("args {} {} {} {}", filename, o, n, dest);
+    println!("args {} {} {}", filename, n, dest);
 
-    split(&filename, &n, &o, &dest);
+    split(&filename, &n, &dest);
 
 }
