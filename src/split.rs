@@ -2,6 +2,7 @@ use std::fs::File;
 use std::io;
 use std::io::prelude::*;
 use std::io::SeekFrom;
+use std::os::unix::fs::MetadataExt;
 //use zerocopy::FromBytes;
 
 
@@ -73,12 +74,40 @@ pub fn split(filename: &String, n: &bool, o: &String, dest: &String) -> io::Resu
 
     println!("opening file {}", filename);
     
-    let content = read_in(&filename).unwrap();
-    
-    let len = content.len();
+    let mut f = File::open(filename)?;
+    let step = 8;
+    let size = f.metadata().unwrap().size();
 
-    println!("Length {}", len);
+    for o in (0..size).step_by(step as usize) {
+
+        //println!("Offset {}", o);
+        f.seek(SeekFrom::Start(o))?;
+        let buf = &mut [0u8; 4];
+        let val = f.read(buf).unwrap() as u32;
+
+        let hex = u32::from_be_bytes(*buf);
+        
+        if hex == DTB_MAGIC {
+            println!("{buf:#?} @{o:#x}");
+        }
+
+        /*if let Ok(s) = std::str::from_utf8(&buf[..8]) {
+            if s.starts_with(p) {
+                println!("{o:08x} ({:08x}): {s:?}", o + base);
+            }
+            if s.starts_with(edk2::RUNTSERV) {
+                f.seek(SeekFrom::Start(o))?;
+                let buf = &mut [0u8; 88];
+                let _ = f.read(buf);
+                let r = edk2::RuntServ::read_from_prefix(buf).unwrap();
+                println!("{o:08x} ({:08x}): {r:#x?}", o + base);
+            }
+        }*/
+
+        
+    }
     
+
     Ok(())
 
 }
