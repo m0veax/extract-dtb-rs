@@ -15,7 +15,22 @@ __version__ = "1.3.dev0"
 
 DTB_HEADER = b"\xd0\x0d\xfe\xed"
 */
-const DTB_HEADER: [u8; 4] = [0xd0, 0x0d, 0xfe, 0xed];
+const DTB_MAGIC: u32 = 0xd00d_feed;
+
+// https://devicetree-specification.readthedocs.io/en/v0.3/flattened-format.html#header
+
+struct DtbHeader {
+    magic: u32,
+    totalsize: u32,
+    off_dt_struct: u32,
+    off_dt_strings: u32,
+    off_mem_rsvmap: u32,
+    version: u32,
+    last_comp_version: u32,
+    boot_cpuid_phys: u32,
+    size_dt_strings: u32,
+    size_dt_struct: u32
+}
 
 /* 
 
